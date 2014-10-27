@@ -15,5 +15,9 @@ module SEPA
         send("#{name}=", value)
       end
     end
+
+    def iban=(value)
+      @iban = IBANTools::IBAN.new(value.to_s).code
+    end
   end
 end

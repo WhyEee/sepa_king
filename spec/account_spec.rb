@@ -28,6 +28,16 @@ describe SEPA::Account do
     it 'should not accept invalid value' do
       expect(SEPA::Account).not_to accept(nil, '', 'invalid', for: :iban)
     end
+
+    context 'with non-canonical value' do
+      it 'should accept valid value' do
+        expect(SEPA::Account).to accept('de21 5005 0000 9876 5432 10', 'Pl61 1090 1014 0000 0712 1981 2874', for: :iban)
+      end
+
+      it 'should canonicalize value' do
+        expect(SEPA::Account.new(iban: 'de21 5005 0000 9876 5432 10').iban).to eq('DE21500500009876543210')
+      end
+    end
   end
 
   describe :bic do
